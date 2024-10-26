@@ -4,7 +4,7 @@
   "description": "Boilerplate code for an API deployed as Vercel serverless function",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "vercel-build": "echo hi"
   },
   "author": "Vinícius Xavier",
   "license": "ISC",
