@@ -1,10 +1,11 @@
 import axios from "axios";
+import { IWhatsAppService } from "../../application/interfaces";
 
 const EVOLUTION_API_URL = process.env.EVOLUTION_API_URL!;
 const EVOLUTION_API_KEY = process.env.EVOLUTION_API_KEY!;
 const EVOLUTION_INSTANCE = process.env.EVOLUTION_INSTANCE!;
 
-export class WhatsAppService {
+export class WhatsAppService implements IWhatsAppService {
   private getHeaders() {
     return {
       "Content-Type": "application/json",
@@ -66,5 +67,3 @@ export class WhatsAppService {
     }
   }
 }
-
-export const whatsappService = new WhatsAppService();

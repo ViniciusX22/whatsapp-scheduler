@@ -13,6 +13,7 @@ TIMEZONE=America/Sao_Paulo
 EVOLUTION_API_URL=https://evolution-api-jl35.onrender.com
 EVOLUTION_API_KEY=your-evolution-api-key-here
 EVOLUTION_INSTANCE=Vinicius
+TRIGGER_SECRET_KEY=your-trigger-secret-key-here
 ```
 
 ### 2. Evolution API Setup
@@ -23,6 +24,7 @@ EVOLUTION_INSTANCE=Vinicius
 ### 3. Trigger.dev Setup
 - Sign up at [trigger.dev](https://trigger.dev)
 - Create a new project
+- Get your secret key and update `TRIGGER_SECRET_KEY` in your `.env` file
 - Deploy your triggers using: `npx trigger.dev deploy`
 
 ## How it works

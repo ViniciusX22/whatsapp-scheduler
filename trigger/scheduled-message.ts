@@ -1,5 +1,8 @@
 import { task, wait } from "@trigger.dev/sdk/v3";
-import { whatsappService } from "../services/whatsapp";
+import { WhatsAppService } from "../infrastructure/services/WhatsAppService";
+
+// Initialize WhatsApp service
+const whatsappService = new WhatsAppService();
 
 // Define the payload type for the scheduled message task
 export type ScheduledMessagePayload = {
