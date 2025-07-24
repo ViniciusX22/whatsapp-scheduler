@@ -52,7 +52,7 @@ export const MessageData = type({
 export const WhatsAppWebhookPayload = type({
   event: "string",
   instance: "string",
-  data: MessageData,
+  "data?": MessageData,
   destination: "string",
   date_time: "string",
   sender: "string",

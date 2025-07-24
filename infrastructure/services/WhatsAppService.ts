@@ -25,14 +25,12 @@ export class WhatsAppService implements IWhatsAppService {
       const response = await axios.post(
         `${EVOLUTION_API_URL}/message/sendReaction/${EVOLUTION_INSTANCE}`,
         {
-          reactionMessage: {
-            key: {
-              id: messageId,
-              fromMe: true,
-              remoteJid: remoteJid,
-            },
-            reaction: emoji,
+          key: {
+            id: messageId,
+            fromMe: true,
+            remoteJid: remoteJid,
           },
+          reaction: emoji,
         },
         { headers: this.getHeaders() }
       );
@@ -40,7 +38,10 @@ export class WhatsAppService implements IWhatsAppService {
       console.log("Reaction added successfully:", response.data);
     } catch (error) {
       console.error("Error adding reaction:", error);
-      throw error;
+
+      if (error instanceof Error) {
+        console.error("Reaction error details:", error.message);
+      }
     }
   }
 
@@ -53,9 +54,7 @@ export class WhatsAppService implements IWhatsAppService {
         `${EVOLUTION_API_URL}/message/sendText/${EVOLUTION_INSTANCE}`,
         {
           number: recipient,
-          textMessage: {
-            text: message,
-          },
+          text: message,
         },
         { headers: this.getHeaders() }
       );

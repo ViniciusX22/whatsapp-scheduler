@@ -3,11 +3,11 @@ import {
   IWhatsAppService,
   ISchedulerService,
   WebhookProcessingResponse,
-  ScheduleMessageRequest,
 } from "../interfaces";
 import { WhatsAppWebhookPayloadType } from "../../domain/models";
 import { ScheduledMessage } from "../../domain/entities";
 
+const USER_PHONE_NUMBER = process.env.USER_PHONE_NUMBER || "";
 export class MessageSchedulingService {
   constructor(
     private readonly messageParser: IMessageParser,
@@ -19,10 +19,10 @@ export class MessageSchedulingService {
     payload: WhatsAppWebhookPayloadType
   ): Promise<WebhookProcessingResponse> {
     const { data } = payload;
-    const { key } = data;
+    const key = data?.key;
 
-    // Only process messages from the user
-    if (!key.fromMe) {
+    // Only process messages from the user to their own number
+    if (!key?.fromMe || !key.remoteJid.includes(USER_PHONE_NUMBER)) {
       return {
         success: true,
         action: "ignored",
