@@ -1,6 +1,6 @@
 # WhatsApp Scheduler
 
-A WhatsApp message scheduler that uses Evolution API and Trigger.dev for scheduling messages.
+A WhatsApp message scheduler deployed on Vercel that uses Evolution API and Trigger.dev for scheduling messages.
 
 ## Setup
 
@@ -8,12 +8,12 @@ A WhatsApp message scheduler that uses Evolution API and Trigger.dev for schedul
 Update your `.env` file with the following variables:
 
 ```env
-PORT=3002
-TIMEZONE=America/Sao_Paulo
-EVOLUTION_API_URL=https://evolution-api-jl35.onrender.com
+TIMEZONE=Your_Timezone
+EVOLUTION_API_URL=api-base-url
 EVOLUTION_API_KEY=your-evolution-api-key-here
-EVOLUTION_INSTANCE=Vinicius
+EVOLUTION_INSTANCE=Instance Name
 TRIGGER_SECRET_KEY=your-trigger-secret-key-here
+USER_PHONE_NUMBER=your-phone-number
 ```
 
 ### 2. Evolution API Setup
@@ -30,7 +30,7 @@ TRIGGER_SECRET_KEY=your-trigger-secret-key-here
 ## How it works
 
 ### 1. Send a WhatsApp Message
-Send a message in WhatsApp with the following format:
+Send a message in WhatsApp to your own number (you can use the URL shorcut `https://wa.me/<your_phone_number_here>`) with the following format:
 ```
 Your message here
 > tomorrow at 10am
@@ -76,7 +76,7 @@ Processes incoming WhatsApp messages and schedules them.
 **Request Body**: `MessageRequestBody` (WhatsApp webhook payload)
 
 **Responses**:
-- `201`: Message scheduled successfully
+- `200`: Message processed successfully
 - `400`: Invalid message format or parsing error
 - `500`: Internal server error
 
@@ -91,9 +91,15 @@ Health check endpoint
 # Install dependencies
 npm install
 
-# Start development server
-npm run dev
+# Start Vercel's development server
+npm start
 
 # Deploy Trigger.dev tasks
-npx trigger.dev deploy
+npm run deploy:trigger
+
+# Deploy Vercel function
+npm run deploy:vercel
+
+# Deploys both Vercel function and Trigger.dev tasks
+npm run deploy
 ```
