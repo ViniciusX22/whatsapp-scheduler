@@ -15,12 +15,12 @@ export class WhatsAppMessageParser implements IMessageParser {
     payload: WhatsAppWebhookPayloadType
   ): ScheduleMessageRequest | null {
     const { data } = payload;
-    const { messageType, message, contextInfo } = data;
+    const { messageType, message, contextInfo } = data ?? {};
 
     // Validate message structure
     if (
       messageType !== "conversation" ||
-      !message.conversation ||
+      !message?.conversation ||
       !contextInfo?.quotedMessage?.contactMessage
     ) {
       return null;
