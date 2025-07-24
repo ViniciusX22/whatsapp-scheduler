@@ -17,7 +17,7 @@ USER_PHONE_NUMBER=your-phone-number
 ```
 
 ### 2. Evolution API Setup
-- Make sure your Evolution API instance is running and accessible
+- Make sure your Evolution API instance is running and accessible. You can clone the [oficial repository](https://github.com/EvolutionAPI/evolution-api) or use this [fork](https://github.com/ViniciusX22/evolution-api) which has already been tested for this purpose.
 - Get your API key from the Evolution API dashboard
 - Update the `EVOLUTION_API_KEY` and `EVOLUTION_INSTANCE` in your `.env` file
 
