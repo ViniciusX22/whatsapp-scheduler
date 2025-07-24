@@ -2,18 +2,17 @@
   "name": "whatsapp-scheduler",
   "version": "0.0.1",
   "description": "API for scheduling messages on WhatsApp",
+  "author": "Vinícius Xavier",
+  "license": "MIT",
   "main": "index.ts",
   "scripts": {
     "build": "node build.mjs",
-    "build:simple": "esbuild api/index.ts index.ts trigger/scheduled-message.ts --bundle --platform=node --target=node18 --format=cjs --outdir=dist --external:@trigger.dev/sdk --external:axios --external:express --external:dotenv --external:chrono-node --minify --tree-shaking",
     "vercel-build": "npm run build",
-    "deploy": "npx trigger.dev deploy && npx vercel --prod",
+    "deploy": "npm run deploy:trigger && npm run deploy:vercel",
     "deploy:vercel": "npx vercel --prod",
     "deploy:trigger": "npx trigger.dev deploy",
     "start": "npx vercel dev"
   },
-  "author": "Vinícius Xavier",
-  "license": "MIT",
   "devDependencies": {
     "@trigger.dev/build": "^3.3.17",
     "@types/express": "^5.0.0",
