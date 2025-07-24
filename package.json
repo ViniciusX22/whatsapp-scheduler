@@ -13,7 +13,7 @@
     "start": "npx vercel dev"
   },
   "author": "Vinícius Xavier",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@trigger.dev/build": "^3.3.17",
     "@types/express": "^5.0.0",
