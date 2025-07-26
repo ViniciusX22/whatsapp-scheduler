@@ -28,14 +28,23 @@ export interface IMessageParser {
   ): ScheduleMessageRequest | null;
 }
 
+export type AddReactionPayload = {
+  instance: string;
+  messageId: string;
+  remoteJid: string;
+  emoji: string;
+};
+
+export type SendMessagePayload = {
+  instance: string;
+  recipient: string;
+  message: string;
+};
+
 // WhatsApp Service Interface
 export interface IWhatsAppService {
-  addReaction(
-    messageId: string,
-    remoteJid: string,
-    emoji: string
-  ): Promise<void>;
-  sendMessage(recipient: string, message: string): Promise<void>;
+  addReaction(payload: AddReactionPayload): Promise<void>;
+  sendMessage(payload: SendMessagePayload): Promise<void>;
 }
 
 // Scheduler Service Interface
@@ -45,5 +54,5 @@ export interface ISchedulerService {
 
 // Date Parser Interface
 export interface IDateParser {
-  parse(text: string, timezone: string): Date | null;
+  parse(text: string, timezone?: string): Date | null;
 }

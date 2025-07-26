@@ -7,7 +7,6 @@ import {
 import { WhatsAppWebhookPayloadType } from "../../domain/models";
 import { ScheduledMessage } from "../../domain/entities";
 
-const USER_PHONE_NUMBER = process.env.USER_PHONE_NUMBER || "";
 export class MessageSchedulingService {
   constructor(
     private readonly messageParser: IMessageParser,
@@ -18,17 +17,18 @@ export class MessageSchedulingService {
   async processWebhookMessage(
     payload: WhatsAppWebhookPayloadType
   ): Promise<WebhookProcessingResponse> {
-    const { data } = payload;
-    const key = data?.key;
+    const { data, sender, instance } = payload;
 
-    // Only process messages from the user to their own number
-    if (!key?.fromMe || !key.remoteJid.includes(USER_PHONE_NUMBER)) {
+    // Only process messages where the sender and recipient are the same
+    if (sender !== data?.key?.remoteJid) {
       return {
         success: true,
         action: "ignored",
-        message: "Message not from user, ignored",
+        message: "Message not from user to themselves, ignored",
       };
     }
+
+    const { id: messageId, remoteJid } = data.key;
 
     try {
       // Parse the scheduling message
@@ -36,7 +36,7 @@ export class MessageSchedulingService {
         this.messageParser.parseSchedulingMessage(payload);
 
       if (!scheduleRequest) {
-        await this.addErrorReaction(key.id, key.remoteJid);
+        await this.addErrorReaction(messageId, remoteJid, instance);
         return {
           success: false,
           action: "error",
@@ -49,7 +49,8 @@ export class MessageSchedulingService {
       const scheduledMessage = ScheduledMessage.create(
         scheduleRequest.recipient,
         scheduleRequest.messageText,
-        scheduleRequest.scheduledAt
+        scheduleRequest.scheduledAt,
+        instance
       );
 
       // Schedule the message
@@ -58,7 +59,12 @@ export class MessageSchedulingService {
       );
 
       // Add success reaction
-      await this.whatsappService.addReaction(key.id, key.remoteJid, "✅");
+      await this.whatsappService.addReaction({
+        instance,
+        messageId,
+        remoteJid,
+        emoji: "✅",
+      });
 
       return {
         success: true,
@@ -69,7 +75,7 @@ export class MessageSchedulingService {
       console.error("Error processing webhook message:", error);
 
       // Add error reaction
-      await this.addErrorReaction(key.id, key.remoteJid);
+      await this.addErrorReaction(messageId, remoteJid, instance);
 
       return {
         success: false,
@@ -82,10 +88,16 @@ export class MessageSchedulingService {
 
   private async addErrorReaction(
     messageId: string,
-    remoteJid: string
+    remoteJid: string,
+    instance: string
   ): Promise<void> {
     try {
-      await this.whatsappService.addReaction(messageId, remoteJid, "❌");
+      await this.whatsappService.addReaction({
+        messageId,
+        remoteJid,
+        instance,
+        emoji: "❌",
+      });
     } catch (error) {
       console.error("Error adding error reaction:", error);
     }

@@ -8,18 +8,36 @@ A WhatsApp message scheduler deployed on Vercel that uses Evolution API and Trig
 Update your `.env` file with the following variables:
 
 ```env
-TIMEZONE=GMT # Timezone name or minute-offset (e.g. "BRT" or "-180")
+TIMEZONE=UTC # Timezone name or minute-offset (e.g. "BRT" or "-180")
 EVOLUTION_API_URL=api-base-url
 EVOLUTION_API_KEY=your-evolution-api-key-here
-EVOLUTION_INSTANCE=Instance Name
 TRIGGER_SECRET_KEY=your-trigger-secret-key-here
-USER_PHONE_NUMBER=your-phone-number
+
+# Locale Configuration (Optional)
+CHRONO_LOCALE=en # Language for date parsing (see supported locales below)
 ```
+
+#### Supported Locales
+The app supports multiple languages for date parsing:
+
+| Code | Language | Default Timezone | Examples |
+|------|----------|------------------|----------|
+| `en` | English | UTC | "tomorrow at 3pm", "next monday 9am" |
+| `pt` | Portuguese | BRT | "amanhã às 15h", "segunda que vem às 9h" |
+| `es` | Spanish | CET | "mañana a las 3pm", "el lunes a las 9" |
+| `fr` | French | CET | "demain à 15h", "lundi prochain à 9h" |
+| `de` | German | CET | "morgen um 15 Uhr", "nächsten Montag um 9" |
+| `ja` | Japanese | JST | "明日の午後3時", "来週の月曜日午前9時" |
+| `zh` | Chinese | CST | "明天下午3点", "下周一上午9点" |
+| `ru` | Russian | MSK | "завтра в 15:00", "в понедельник в 9 утра" |
+| `nl` | Dutch | CET | "morgen om 15:00", "maandag om 9 uur" |
+
+**Default:** English (`en`) if not specified.
 
 ### 2. Evolution API Setup
 - Make sure your Evolution API instance is running and accessible. You can clone the [oficial repository](https://github.com/EvolutionAPI/evolution-api) or use this [fork](https://github.com/ViniciusX22/evolution-api) which has already been tested for this purpose.
 - Get your API key from the Evolution API dashboard
-- Update the `EVOLUTION_API_KEY` and `EVOLUTION_INSTANCE` in your `.env` file
+- Update the `EVOLUTION_API_KEY` in your `.env` file
 
 ### 3. Trigger.dev Setup
 - Sign up at [trigger.dev](https://trigger.dev)

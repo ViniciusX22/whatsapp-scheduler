@@ -9,6 +9,7 @@ export type ScheduledMessagePayload = {
   recipient: string;
   message: string;
   scheduledAt: string; // ISO date string
+  instance: string;
 };
 
 // Create a task that will send the scheduled message
@@ -35,7 +36,7 @@ export const sendScheduledMessage = task({
       console.log(
         `Sending message to ${payload.recipient}: ${payload.message}`
       );
-      await whatsappService.sendMessage(payload.recipient, payload.message);
+      await whatsappService.sendMessage(payload);
 
       return {
         success: true,

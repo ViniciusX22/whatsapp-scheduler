@@ -6,10 +6,7 @@ import {
 import { WhatsAppWebhookPayloadType } from "../../domain/models";
 
 export class WhatsAppMessageParser implements IMessageParser {
-  constructor(
-    private readonly dateParser: IDateParser,
-    private readonly timezone: string
-  ) {}
+  constructor(private readonly dateParser: IDateParser) {}
 
   parseSchedulingMessage(
     payload: WhatsAppWebhookPayloadType
@@ -46,7 +43,7 @@ export class WhatsAppMessageParser implements IMessageParser {
     }
 
     // Parse the date
-    const scheduledAt = this.dateParser.parse(whenText, this.timezone);
+    const scheduledAt = this.dateParser.parse(whenText);
     if (!scheduledAt) {
       return null;
     }

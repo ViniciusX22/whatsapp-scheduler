@@ -10,6 +10,7 @@ export class TriggerSchedulerService implements ISchedulerService {
         recipient: scheduledMessage.recipient.toString(),
         message: scheduledMessage.messageText.toString(),
         scheduledAt: scheduledMessage.scheduledAt.toISOString(),
+        instance: scheduledMessage.instance.toString(),
       };
 
       const taskHandle = await tasks.trigger<typeof sendScheduledMessage>(

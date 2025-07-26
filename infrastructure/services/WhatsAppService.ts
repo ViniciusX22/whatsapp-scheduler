@@ -1,9 +1,12 @@
 import axios from "axios";
-import { IWhatsAppService } from "../../application/interfaces";
+import {
+  AddReactionPayload,
+  IWhatsAppService,
+  SendMessagePayload,
+} from "../../application/interfaces";
 
 const EVOLUTION_API_URL = process.env.EVOLUTION_API_URL!;
 const EVOLUTION_API_KEY = process.env.EVOLUTION_API_KEY!;
-const EVOLUTION_INSTANCE = process.env.EVOLUTION_INSTANCE!;
 
 export class WhatsAppService implements IWhatsAppService {
   private getHeaders() {
@@ -16,14 +19,15 @@ export class WhatsAppService implements IWhatsAppService {
   /**
    * Add a reaction emoji to a message
    */
-  async addReaction(
-    messageId: string,
-    remoteJid: string,
-    emoji: string
-  ): Promise<void> {
+  async addReaction({
+    instance,
+    messageId,
+    remoteJid,
+    emoji,
+  }: AddReactionPayload): Promise<void> {
     try {
       const response = await axios.post(
-        `${EVOLUTION_API_URL}/message/sendReaction/${EVOLUTION_INSTANCE}`,
+        `${EVOLUTION_API_URL}/message/sendReaction/${instance}`,
         {
           key: {
             id: messageId,
@@ -48,10 +52,14 @@ export class WhatsAppService implements IWhatsAppService {
   /**
    * Send a WhatsApp message
    */
-  async sendMessage(recipient: string, message: string): Promise<void> {
+  async sendMessage({
+    instance,
+    recipient,
+    message,
+  }: SendMessagePayload): Promise<void> {
     try {
       const response = await axios.post(
-        `${EVOLUTION_API_URL}/message/sendText/${EVOLUTION_INSTANCE}`,
+        `${EVOLUTION_API_URL}/message/sendText/${instance}`,
         {
           number: recipient,
           text: message,

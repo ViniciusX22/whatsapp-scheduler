@@ -13,13 +13,10 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-// Setup timezone
-const TIMEZONE = process.env.TIMEZONE || "America/Sao_Paulo";
-
 // Initialize services with dependency injection
 const whatsAppService = new WhatsAppService();
 const dateParser = new ChronoDateParser();
-const messageParser = new WhatsAppMessageParser(dateParser, TIMEZONE);
+const messageParser = new WhatsAppMessageParser(dateParser);
 const schedulerService = new TriggerSchedulerService();
 
 // Initialize application service

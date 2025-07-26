@@ -45,10 +45,23 @@ export class ScheduleTime {
   }
 }
 
+export class InstanceName {
+  constructor(private readonly value: string) {
+    if (!value || value.trim().length === 0) {
+      throw new Error("Instance name cannot be empty");
+    }
+  }
+
+  toString(): string {
+    return this.value;
+  }
+}
+
 // Domain Entity
 export class ScheduledMessage {
   constructor(
     public readonly id: string,
+    public readonly instance: InstanceName,
     public readonly recipient: WhatsAppId,
     public readonly messageText: MessageText,
     public readonly scheduledAt: ScheduleTime,
@@ -58,10 +71,12 @@ export class ScheduledMessage {
   static create(
     recipient: string,
     messageText: string,
-    scheduledAt: Date
+    scheduledAt: Date,
+    instance: string
   ): ScheduledMessage {
     return new ScheduledMessage(
       crypto.randomUUID(),
+      new InstanceName(instance),
       new WhatsAppId(recipient),
       new MessageText(messageText),
       new ScheduleTime(scheduledAt)

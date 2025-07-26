@@ -11,7 +11,8 @@
     "deploy": "npm run deploy:trigger && npm run deploy:vercel",
     "deploy:vercel": "npx vercel --prod",
     "deploy:trigger": "npx trigger.dev deploy",
-    "start": "npx vercel dev"
+    "start": "npx vercel dev",
+    "test:locales": "npx tsx scripts/test-locales.ts"
   },
   "devDependencies": {
     "@trigger.dev/build": "^3.3.17",
