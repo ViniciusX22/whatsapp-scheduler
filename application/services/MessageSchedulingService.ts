@@ -20,7 +20,7 @@ export class MessageSchedulingService {
     const { data, sender, instance } = payload;
 
     // Only process messages where the sender and recipient are the same
-    if (sender !== data?.key?.remoteJid) {
+    if (!data?.key || sender !== data?.key?.remoteJid) {
       return {
         success: true,
         action: "ignored",
