@@ -8,7 +8,7 @@ A WhatsApp message scheduler deployed on Vercel that uses Evolution API and Trig
 Update your `.env` file with the following variables:
 
 ```env
-TIMEZONE=Your_Timezone
+TIMEZONE=GMT # Timezone name or minute-offset (e.g. "BRT" or "-180")
 EVOLUTION_API_URL=api-base-url
 EVOLUTION_API_KEY=your-evolution-api-key-here
 EVOLUTION_INSTANCE=Instance Name
