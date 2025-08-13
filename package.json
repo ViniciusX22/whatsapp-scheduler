@@ -12,7 +12,9 @@
     "deploy:vercel": "npx vercel --prod",
     "deploy:trigger": "npx trigger.dev deploy",
     "start": "npx vercel dev",
-    "test:locales": "npx tsx scripts/test-locales.ts"
+    "test:locales": "npx tsx scripts/test-locales.ts",
+    "test:ping": "node scripts/test-ping.js",
+    "test:ping:local": "node scripts/test-ping-local.js"
   },
   "devDependencies": {
     "@trigger.dev/build": "^3.3.17",

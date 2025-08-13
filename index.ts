@@ -30,10 +30,11 @@ app.post("/schedule", validateWhatsAppWebhook, async (req, res) => {
   try {
     const payload: WhatsAppWebhookPayloadType = req.body;
 
-    // Process the webhook message
-    await messageSchedulingService.processWebhookMessage(payload);
+    const result = await messageSchedulingService.processWebhookMessage(
+      payload
+    );
 
-    res.status(200).json({ success: true });
+    res.status(200).json(result);
   } catch (error) {
     console.error("Error processing webhook:", error);
     res.status(500).json({ error: "Internal server error" });

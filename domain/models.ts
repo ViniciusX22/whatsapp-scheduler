@@ -13,13 +13,13 @@ export const ContactMessage = type({
 });
 
 export const QuotedMessage = type({
-  contactMessage: ContactMessage,
+  "contactMessage?": ContactMessage,
 });
 
 export const ContextInfo = type({
-  stanzaId: "string",
-  participant: "string",
-  quotedMessage: QuotedMessage,
+  "stanzaId?": "string",
+  "participant?": "string",
+  "quotedMessage?": QuotedMessage,
   "expiration?": "number",
   "ephemeralSettingTimestamp?": "string",
   "entryPointConversionSource?": "string",
@@ -28,9 +28,9 @@ export const ContextInfo = type({
   "disappearingMode?": {
     initiator: "string",
     trigger: "string",
-    initiatedByMe: "boolean",
+    "initiatedByMe?": "boolean",
   },
-});
+}).or("null");
 
 export const Message = type({
   "conversation?": "string",

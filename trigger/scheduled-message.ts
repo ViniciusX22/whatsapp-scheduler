@@ -34,7 +34,7 @@ export const sendScheduledMessage = task({
 
       // Send the message
       console.log(
-        `Sending message to ${payload.recipient}: ${payload.message}`
+        `Sending message to ${payload.recipient} from ${payload.instance}: ${payload.message}`
       );
       await whatsappService.sendMessage(payload);
 
@@ -43,6 +43,7 @@ export const sendScheduledMessage = task({
         message: "Scheduled message sent successfully",
         sentAt: new Date().toISOString(),
         recipient: payload.recipient,
+        instance: payload.instance,
       };
     } catch (error) {
       console.error("Error sending scheduled message:", error);

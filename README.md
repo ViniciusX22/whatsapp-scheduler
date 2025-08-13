@@ -69,8 +69,24 @@ The app will:
 ### 3. Feedback Reactions
 - ✅ Checkmark emoji: Message scheduled successfully
 - ❌ X emoji: Error occurred (invalid format, parsing error, etc.)
+- 🏓 Ping pong emoji: Ping test successful (services are working)
 
-### 4. Message Delivery
+### 4. Ping Test
+To check if all services are working correctly, send a message to yourself with just:
+```
+/ping
+```
+
+This will:
+- Test the webhook connection
+- Verify Evolution API communication  
+- Confirm reaction functionality
+- Help warm up serverless functions
+- Return 🏓 emoji if everything is working
+
+Use this whenever you suspect services might be "cold" or not responding properly.
+
+### 5. Message Delivery
 Trigger.dev will:
 - Wait until the scheduled time
 - Send the message via Evolution API

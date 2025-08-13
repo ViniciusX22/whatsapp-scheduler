@@ -26,26 +26,46 @@ export class WhatsAppService implements IWhatsAppService {
     emoji,
   }: AddReactionPayload): Promise<void> {
     try {
+      console.log(
+        `🔧 Adding reaction ${emoji} to message ${messageId} in instance ${instance}`
+      );
+      console.log(
+        `📡 Evolution API URL: ${EVOLUTION_API_URL}/message/sendReaction/${instance}`
+      );
+
+      const payload = {
+        key: {
+          id: messageId,
+          fromMe: true,
+          remoteJid: remoteJid,
+        },
+        reaction: emoji,
+      };
+
+      console.log(`📦 Reaction payload:`, JSON.stringify(payload, null, 2));
+
       const response = await axios.post(
         `${EVOLUTION_API_URL}/message/sendReaction/${instance}`,
-        {
-          key: {
-            id: messageId,
-            fromMe: true,
-            remoteJid: remoteJid,
-          },
-          reaction: emoji,
-        },
+        payload,
         { headers: this.getHeaders() }
       );
 
-      console.log("Reaction added successfully:", response.data);
+      console.log("✅ Reaction added successfully:", response.data);
     } catch (error) {
-      console.error("Error adding reaction:", error);
+      console.error("❌ Error adding reaction:", error);
 
-      if (error instanceof Error) {
-        console.error("Reaction error details:", error.message);
+      if (axios.isAxiosError(error)) {
+        console.error("🚨 Evolution API error details:");
+        console.error("Status:", error.response?.status);
+        console.error("Status Text:", error.response?.statusText);
+        console.error("Response data:", error.response?.data);
+        console.error("Request URL:", error.config?.url);
+      } else if (error instanceof Error) {
+        console.error("Error message:", error.message);
       }
+
+      // Re-throw the error so the caller can handle it
+      throw error;
     }
   }
 

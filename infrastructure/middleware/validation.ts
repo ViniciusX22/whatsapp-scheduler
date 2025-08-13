@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { WhatsAppWebhookPayload } from "../../domain/models";
+import { type } from "arktype";
 
 export interface ValidatedRequest<T> extends Request {
   validatedBody: T;
@@ -13,11 +14,11 @@ export const validateWhatsAppWebhook = (
   try {
     const validation = WhatsAppWebhookPayload(req.body);
 
-    if (validation instanceof Error) {
-      console.error("Validation errors:", validation.message);
+    if (validation instanceof type.errors) {
+      console.error("Validation errors:", validation.summary);
       res.status(400).json({
         error: "Invalid request body",
-        details: validation.message,
+        details: validation.summary,
       });
       return;
     }

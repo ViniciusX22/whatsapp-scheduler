@@ -19,8 +19,62 @@ export class MessageSchedulingService {
   ): Promise<WebhookProcessingResponse> {
     const { data, sender, instance } = payload;
 
+    // Debug logging
+    console.log(
+      "🔍 Debug - Payload received:",
+      JSON.stringify(payload, null, 2)
+    );
+    console.log("  sender:", sender);
+    console.log("  data.key.remoteJid:", data?.key?.remoteJid);
+    console.log("  match:", sender === data?.key?.remoteJid);
+    console.log("  message text:", data?.message?.conversation);
+
+    // Temporarily allow ping messages to bypass the self-message check for testing
+    const messageText = data?.message?.conversation?.trim();
+    if (messageText === "/ping") {
+      console.log(
+        "🏓 Ping message detected - bypassing self-message check for testing"
+      );
+
+      if (!data?.key) {
+        return {
+          success: false,
+          action: "ping_failed",
+          message: "Invalid message key",
+          error: "Missing message key",
+        };
+      }
+
+      const { id: messageId, remoteJid } = data.key;
+
+      try {
+        await this.whatsappService.addReaction({
+          instance,
+          messageId,
+          remoteJid,
+          emoji: "🏓", // Ping pong emoji
+        });
+
+        console.log(`Ping test successful for message ${messageId}`);
+        return {
+          success: true,
+          action: "ping",
+          message: "Ping test successful - all services are working correctly",
+        };
+      } catch (error) {
+        console.error("Ping test failed:", error);
+        return {
+          success: false,
+          action: "ping_failed",
+          message: "Ping test failed - service may be warming up",
+          error: error instanceof Error ? error.message : String(error),
+        };
+      }
+    }
+
     // Only process messages where the sender and recipient are the same
     if (!data?.key || sender !== data?.key?.remoteJid) {
+      console.log("❌ Message ignored - not from user to themselves");
       return {
         success: true,
         action: "ignored",

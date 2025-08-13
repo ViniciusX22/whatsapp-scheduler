@@ -16,7 +16,7 @@ export interface ScheduleMessageResponse {
 
 export interface WebhookProcessingResponse {
   success: boolean;
-  action: "scheduled" | "ignored" | "error";
+  action: "scheduled" | "ignored" | "error" | "ping" | "ping_failed";
   message: string;
   error?: string;
 }
