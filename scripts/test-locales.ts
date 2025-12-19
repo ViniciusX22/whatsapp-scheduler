@@ -17,7 +17,7 @@ const testPhrases = [
   "in 2 hours",
   "december 25th 2024",
   "next week",
-  "hoje às 15h", // Portuguese
+  "segunda às 9h", // Portuguese
   "mañana a las 3pm", // Spanish
   "demain à 15h", // French
   "morgen um 15 Uhr", // German
