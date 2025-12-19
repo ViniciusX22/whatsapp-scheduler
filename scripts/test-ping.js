@@ -7,7 +7,7 @@
 
 const axios = require("axios");
 
-const DEFAULT_URL = "https://whatsapp-scheduler-two.vercel.app/schedule";
+const DEFAULT_URL = process.env.BASE_URL;
 
 async function testPing(url = DEFAULT_URL) {
   console.log("🏓 Testing ping functionality...\n");
